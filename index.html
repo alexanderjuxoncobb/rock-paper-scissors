@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function getComputerChoice() {
+        return ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)];
+      }
+
+      //   console.log(getComputerChoice());
+
+      function getHumanChoice() {
+        return prompt("Please pick a choice: ");
+      }
+
+      //   console.log(getHumanChoice());
+
+      function playGame() {
+        let humanScore = 0;
+        let computerScore = 0;
+
+        function playRound(getHumanChoice, getComputerChoice) {
+          let caseInsensitiveHumanChoice = getHumanChoice.toLowerCase();
+          if (caseInsensitiveHumanChoice === getComputerChoice)
+            console.log("Draw");
+          else if (
+            (caseInsensitiveHumanChoice === "rock" &&
+              getComputerChoice === "scissors") ||
+            (caseInsensitiveHumanChoice === "paper" &&
+              getComputerChoice === "rock") ||
+            (caseInsensitiveHumanChoice === "scissors" &&
+              getComputerChoice === "paper")
+          ) {
+            console.log("Human wins!");
+            humanScore++;
+          } else if (
+            (caseInsensitiveHumanChoice === "scissors" &&
+              getComputerChoice === "rock") ||
+            (caseInsensitiveHumanChoice === "rock" &&
+              getComputerChoice === "paper") ||
+            (caseInsensitiveHumanChoice === "paper" &&
+              getComputerChoice === "scissors")
+          ) {
+            console.log("Computer wins!");
+            computerScore++;
+          } else console.log("Invalid play.");
+        }
+
+        for (i = 0; i < 5; i++) {
+          const humanSelection = getHumanChoice();
+          const computerSelection = getComputerChoice();
+
+          playRound(humanSelection, computerSelection);
+        }
+        if (humanScore == computerScore)
+          return `Human: ${humanScore}, Computer: ${computerScore}. It's a draw!`;
+        else {
+          winner = humanScore > computerScore ? "Human!" : "Computer!";
+          return `Human: ${humanScore}, Computer: ${computerScore}. Winner is ${winner}`;
+        }
+      }
+
+      let result = playGame();
+      console.log(result);
+    </script>
+  </body>
+</html>
