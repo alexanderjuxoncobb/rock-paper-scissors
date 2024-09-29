@@ -6,66 +6,83 @@
     <title>Document</title>
   </head>
   <body>
+    <button id="btn1">Rock</button>
+    <button id="btn2">Paper</button>
+    <button id="btn3">Scissors</button>
+    <div id="round-result"></div>
+    <div id="score"></div>
     <script>
+      let humanScore = 0;
+      let computerScore = 0;
+
+      btn1 = document.querySelector("#btn1");
+      btn1.addEventListener("click", function (e) {
+        const humanSelection = "rock";
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+      });
+
+      btn2 = document.querySelector("#btn2");
+      btn2.addEventListener("click", function (e) {
+        const humanSelection = "paper";
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+      });
+
+      btn3 = document.querySelector("#btn3");
+      btn3.addEventListener("click", function (e) {
+        const humanSelection = "scissors";
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+      });
+
+      div = document.querySelector("#round-result");
+      scoreDiv = document.querySelector("#score");
+
       function getComputerChoice() {
         return ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)];
       }
 
-      //   console.log(getComputerChoice());
+      function playRound(getHumanChoice, getComputerChoice) {
+        let caseInsensitiveHumanChoice = getHumanChoice.toLowerCase();
+        if (caseInsensitiveHumanChoice === getComputerChoice) {
+          // console.log("Draw");
+          div.textContent = "Draw";
+        } else if (
+          (caseInsensitiveHumanChoice === "rock" &&
+            getComputerChoice === "scissors") ||
+          (caseInsensitiveHumanChoice === "paper" &&
+            getComputerChoice === "rock") ||
+          (caseInsensitiveHumanChoice === "scissors" &&
+            getComputerChoice === "paper")
+        ) {
+          // console.log("Human wins!");
+          div.textContent = "Human wins!";
+          humanScore++;
+        } else if (
+          (caseInsensitiveHumanChoice === "scissors" &&
+            getComputerChoice === "rock") ||
+          (caseInsensitiveHumanChoice === "rock" &&
+            getComputerChoice === "paper") ||
+          (caseInsensitiveHumanChoice === "paper" &&
+            getComputerChoice === "scissors")
+        ) {
+          // console.log("Computer wins!");
+          div.textContent = "Computer wins!";
+          computerScore++;
+        } else div.textContent = "Invalid play.";
 
-      function getHumanChoice() {
-        return prompt("Please pick a choice: ");
-      }
+        scoreDiv.textContent = `Human: ${humanScore}, Computer: ${computerScore}`;
 
-      //   console.log(getHumanChoice());
-
-      function playGame() {
-        let humanScore = 0;
-        let computerScore = 0;
-
-        function playRound(getHumanChoice, getComputerChoice) {
-          let caseInsensitiveHumanChoice = getHumanChoice.toLowerCase();
-          if (caseInsensitiveHumanChoice === getComputerChoice)
-            console.log("Draw");
-          else if (
-            (caseInsensitiveHumanChoice === "rock" &&
-              getComputerChoice === "scissors") ||
-            (caseInsensitiveHumanChoice === "paper" &&
-              getComputerChoice === "rock") ||
-            (caseInsensitiveHumanChoice === "scissors" &&
-              getComputerChoice === "paper")
-          ) {
-            console.log("Human wins!");
-            humanScore++;
-          } else if (
-            (caseInsensitiveHumanChoice === "scissors" &&
-              getComputerChoice === "rock") ||
-            (caseInsensitiveHumanChoice === "rock" &&
-              getComputerChoice === "paper") ||
-            (caseInsensitiveHumanChoice === "paper" &&
-              getComputerChoice === "scissors")
-          ) {
-            console.log("Computer wins!");
-            computerScore++;
-          } else console.log("Invalid play.");
-        }
-
-        for (i = 0; i < 5; i++) {
-          const humanSelection = getHumanChoice();
-          const computerSelection = getComputerChoice();
-
-          playRound(humanSelection, computerSelection);
-        }
-        if (humanScore == computerScore)
-          return `Human: ${humanScore}, Computer: ${computerScore}. It's a draw!`;
-        else {
-          winner = humanScore > computerScore ? "Human!" : "Computer!";
-          return `Human: ${humanScore}, Computer: ${computerScore}. Winner is ${winner}`;
+        if (humanScore === 5 || computerScore === 5) {
+          scoreDiv.textContent +=
+            humanScore > computerScore
+              ? "  and the winner is HUMAN"
+              : "  and the winner is COMPUTER";
+          buttons = document.querySelectorAll("button");
+          buttons.forEach((button) => button.remove());
         }
       }
-
-      let result = playGame();
-      console.log(result);
     </script>
   </body>
 </html>
